@@ -123,7 +123,10 @@ public class SyncOutboundPusher {
             pushFreenet(archive);
         } else if (url.startsWith("/") || url.startsWith("file://") || url.startsWith("C:\\")) {
             pushFile(archive);
-        } else { // use http as the fallthrough, for "http://foo/" as well as "foo/"
+        }
+        if (url.indexOf("://") == -1) {
+            url = "http://" + url;
+        } else { // use http as the fallthrough because we don't speak https yet
             pushHTTP(archive);
         }
         archive.pushActionComplete();
